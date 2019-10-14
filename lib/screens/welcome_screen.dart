@@ -13,7 +13,51 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+
+
+  AnimationController controller;
+  Animation animation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    controller= AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+     // upperBound: 100,
+    );
+
+    animation=CurvedAnimation(parent: controller, curve: Curves.easeIn);
+
+    controller.forward();
+
+
+    controller.addStatusListener((status){
+      if (status==AnimationStatus.completed)
+        controller.reverse(from: 1.0);
+      else if (status==AnimationStatus.dismissed)
+        controller.forward();
+
+     print(status);
+    });
+    controller.addListener((){
+      setState(() {
+
+      });
+
+      print(animation.value);
+    });
+  }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +74,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    height: animation.value*100,
                   ),
                 ),
                 Text(
-                  'Flash Chat',
+                  'Flash Salam',
                   style: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
