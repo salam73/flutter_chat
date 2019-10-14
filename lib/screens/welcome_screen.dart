@@ -37,6 +37,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     controller.forward();
 
 
+
    /* controller.addStatusListener((status){
       if (status==AnimationStatus.completed)
         controller.reverse(from: 1.0);
