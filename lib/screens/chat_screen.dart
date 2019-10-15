@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatScreen extends StatefulWidget {
 
-  static String id='ChatScreen';
-
+  static String id = 'ChatScreen';
 
 
   @override
@@ -12,6 +12,34 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+
+
+  final _auth = FirebaseAuth.instance;
+  FirebaseUser loggedUserIn;
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser();
+      if (user != null)
+        {
+        loggedUserIn = user;
+        print(loggedUserIn.email);
+        }
+    }
+    catch(e){
+      print(e);
+    }
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
